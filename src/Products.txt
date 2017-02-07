@@ -1,0 +1,14 @@
+0001     Coffee                   1.50
+0002     Notebook                 1.00
+0003     Keyboard                 50.00
+0004     Laptop                   599.99
+0005     Calculator               20.00
+0006     Umbrella                 24.99
+0007     Pen                      1.00
+0008     Mouse                    24.99
+0009     Whiteboard               79.99
+0010     Desk                     60.00
+0011     Chair                    15.00
+0012     Printer                  70.00
+0013     Headphones               30.00
+0014     Beanie                   6.00
