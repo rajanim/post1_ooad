@@ -11,4 +11,4 @@
 0011     Chair                    15.00
 0012     Printer                  70.00
 0013     Headphones               30.00
-0014     Beanie                   6.00
+0014     Beanie                   6.00 
