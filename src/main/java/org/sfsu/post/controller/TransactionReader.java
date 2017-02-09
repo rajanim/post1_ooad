@@ -40,8 +40,7 @@ public class TransactionReader {
 	   Transaction nextTrans= new Transaction();
 	   
 	   try{
-		   //Set Customer Names
-		   
+		   //Set Customer Names 
 		   Customer person= new Customer(sc.nextLine());
 		   nexTtrans.setCustomer(person);  
 		   
