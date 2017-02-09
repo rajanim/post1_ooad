@@ -8,6 +8,7 @@ import org.sfsu.post.views.Sale;
  */
 public class PostController {
 
+    PostManager manager;
     public static void main(String[] args) {
 
         //assuming front end method will provide Sale object.
@@ -26,7 +27,13 @@ public class PostController {
 
     }
     public void logNewSale(org.sfsu.post.models.Sale sale) {
-        PostManager manager = new PostManager();
+         manager = new PostManager();
         manager.recordSale(sale);
+    }
+
+    public void generateInvoice(){
+        manager = new PostManager();
+        manager.writeInvoiceToFile();
+
     }
 }

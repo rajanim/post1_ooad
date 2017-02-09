@@ -1,16 +1,11 @@
 package org.sfsu.post.manager;
 
-import org.sfsu.post.models.Customer;
-
-import java.util.HashMap;
-
 /**
  * Created by rajanishivarajmaski1 on 2/6/17.
  */
 public class PostManager {
 
-
-    public int recordSale(org.sfsu.post.models.Sale sale){
+    public int recordSale(org.sfsu.post.models.Sale sale) {
         // this method technically should make call to data layer and record this on database.
         // at this point  we will just write out to text.
 
@@ -18,5 +13,6 @@ public class PostManager {
         return 1;
     }
 
-
+    public void writeInvoiceToFile() {
+    }
 }
