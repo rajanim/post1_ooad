@@ -1,0 +1,49 @@
+Marie Garner
+0001     
+0014     2
+0010     
+CASH $100.00
+
+Amber Wilkerson
+0003     3
+0004     
+0007     5
+CASH $1100.00
+
+Patricia Day
+9999     2
+0013     2
+0001	 3
+CREDIT 12784
+
+Ralph Brown
+0005     4
+CASH $100.00
+
+Dolores	Norton
+0009	 4
+0012     
+CHECK $400.00
+
+Cory Herrera
+0002     10
+0011     4
+0007     7
+0010
+CREDIT 12035
+
+Conrad	Fuller
+0012     2
+0015     15
+0001     20
+CREDIT 65219
+
+Teri Huff
+0006	 6
+0008     2
+CHECK $300.00
+
+Brad Price
+0005     3
+0011     8
+CREDIT 90586

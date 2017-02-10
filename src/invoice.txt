@@ -1,0 +1,98 @@
+My Store
+
+Marie Garner    2017/02/09 17:47:58
+Coffee               1 @     1.50     1.50
+Beanie               2 @     6.00    12.00
+Desk                 1 @    60.00    60.00
+------------
+          Total:                    $73.50
+Amount Tendered:                    100.00
+Amount Returned:                     26.50
+
+
+My Store
+
+Amber Wilkerson 2017/02/09 17:47:58
+Keyboard             3 @    50.00   150.00
+Laptop               1 @   599.99   599.99
+Pen                  5 @     1.00     5.00
+------------
+          Total:                   $754.99
+Amount Tendered:                   1100.00
+Amount Returned:                    345.01
+
+
+My Store
+
+Patricia Day    2017/02/09 17:47:58
+Invalid UPC    
+Headphones           2 @    30.00    60.00
+Coffee               3 @     1.50     4.50
+------------
+          Total:                    $64.50
+   Credit Card#:                     12784
+
+
+My Store
+
+Ralph Brown     2017/02/09 17:47:58
+Calculator           4 @    20.00    80.00
+------------
+          Total:                    $80.00
+Amount Tendered:                    100.00
+Amount Returned:                     20.00
+
+
+My Store
+
+Dolores	Norton  2017/02/09 17:47:58
+Whiteboard           4 @    79.99   319.96
+Printer              1 @    70.00    70.00
+------------
+          Total:                   $389.96
+                             Paid by Check
+
+
+My Store
+
+Cory Herrera    2017/02/09 17:47:58
+Notebook            10 @     1.00    10.00
+Chair                4 @    15.00    60.00
+Pen                  7 @     1.00     7.00
+Desk                 1 @    60.00    60.00
+------------
+          Total:                   $137.00
+   Credit Card#:                     12035
+
+
+My Store
+
+Conrad	Fuller   2017/02/09 17:47:58
+Printer              2 @    70.00   140.00
+Invalid UPC    
+Coffee              20 @     1.50    30.00
+------------
+          Total:                   $170.00
+   Credit Card#:                     65219
+
+
+My Store
+
+Teri Huff       2017/02/09 17:47:58
+Umbrella             6 @    24.99   149.94
+Mouse                2 @    24.99    49.98
+------------
+          Total:                   $199.92
+                             Paid by Check
+
+
+My Store
+
+Brad Price      2017/02/09 17:47:58
+Calculator           3 @    20.00    60.00
+Chair                8 @    15.00   120.00
+------------
+          Total:                   $180.00
+   Credit Card#:                     90586
+
+

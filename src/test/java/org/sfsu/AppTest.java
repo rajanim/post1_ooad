@@ -29,7 +29,7 @@ public class AppTest
     }
 
     /**
-     * Rigourous PostController :-)
+     * Rigourous TransactionReader :-)
      */
     public void testApp()
     {
