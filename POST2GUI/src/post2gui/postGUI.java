@@ -6,17 +6,30 @@
                 2. payButtonActionPerformed
 
                 List of GUI objects can be found at the end of the code.
- * 
+                Methods used for GUI can be easily search by using CTRL+F and
+                type //**** . 
+
+ *    Updates:  A functionality to generate a receipt.txt is added to pay button.
+                Comments are modified for clear understanding of the code.
  * 
  */
 package post2gui;
 
-
 import java.awt.Font;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.ListModel;
 
 /**
  *
@@ -24,22 +37,61 @@ import javax.swing.DefaultListModel;
  */
 public class postGUI extends javax.swing.JFrame {
 
-    /**
-     * Creates new form postGUI
-     */
+    //Variables used in dateAndTime 
+    public static String time;
+    //Variables used in enterButtonActionPerformed
+    public static double tprice = 0.0;
+    public static String name;
+    DefaultListModel list = new DefaultListModel();
+    //Variables used in payButtonActionPerformed
+    public static double paid,change;
+    public static String pType;
+    
     public postGUI() {
         initComponents();
         dateAndTime();
     }
-    
-    //Show Date and Time
-    public void dateAndTime(){
-        
-        final DateFormat df= new SimpleDateFormat("MM dd HH:mm:ss yyyy");
-        
-        Date d=new Date();
+
+    //**** Show Date and Time
+    public void dateAndTime() {
+
+        final DateFormat df = new SimpleDateFormat("MM dd HH:mm:ss yyyy");
+
+        Date d = new Date();
         date.setText(df.format(d));
+        time= date.getText();
+    }
+
+    //**** Print Receipt
+    public static void exportList(ListModel model, File f) throws IOException {
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(f), "UTF-8"));
         
+        try {
+            int len = model.getSize();
+            pw.print("Customer Name: ");
+            pw.println(name);
+            pw.print("Date and Time: ");
+            pw.println(time);
+            pw.println("---------------------------------------------------------------------");
+            pw.println("ITEM                          QUANTITY   UNIT_PRICE   EXTENDED_PRICE");
+            for (int i = 0; i < len; i++) {
+                pw.println(model.getElementAt(i).toString());
+            }
+            pw.println("---------------------------------------------------------------------");
+            pw.print("                                                    Check Out: ");
+            pw.println(pType);
+            pw.print("                                                        Total: $");
+            pw.println(tprice);
+            pw.print("                                                        Paid : $");
+            pw.println(paid);
+            if(pType.compareTo("Cash")==0){
+               pw.print("                                                       Change: $");
+               pw.println(change);  
+            }
+          
+        } finally {
+            pw.close();
+        }
     }
 
     /**
@@ -291,40 +343,67 @@ public class postGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    // Variables used in enterButtonActionPerformed
-    public double tprice =0.0;
-    DefaultListModel list= new DefaultListModel();
-    //Enter Button
+    
+    //**** Enter Button: Input items selected by a user to Jlist.
     private void enterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterButtonActionPerformed
-        
+
         //*** Calculate the price of an Item respect to its quantity ***//
-        //String name= jTextField1.getText(); (Get customer name for future purpose)
-        double amount= Double.valueOf((String)quantity.getSelectedItem());
-        double eaprice= 2.00;
-        double price= eaprice*amount;
+        name = customerName.getText();
+        double amount = Double.valueOf((String) quantity.getSelectedItem());
+        double eaprice = 2.00;
+        double price = eaprice * amount;
         //Total price of items
         tprice += price;
         //*** End of Calculation ***//
-        
+
         //*** Adding to Item Display List ***//
-        Font fmonos= new Font("monospaced",Font.PLAIN,20);
+        Font fmonos = new Font("monospaced", Font.PLAIN, 20);
         listDisplay.setFont(fmonos);
-        
-        list.addElement(String.format("%-36s%2s%13.2f%17.2f",UPC.getSelectedItem(),
-                quantity.getSelectedItem(),eaprice,price));
-        
+
+        list.addElement(String.format("%-36s%2s%13.2f%17.2f", UPC.getSelectedItem(),
+                quantity.getSelectedItem(), eaprice, price));
+
         listDisplay.setModel(list);
         //*** List Added (END) ***//
-        
+
         //set Total price to jLabel
-        totalPrice.setText("$"+(String.valueOf(tprice)));
-        
+        totalPrice.setText("$" + (String.valueOf(tprice)));
+
         //Update Date and Time
         dateAndTime();
     }//GEN-LAST:event_enterButtonActionPerformed
 
-    //Pay Button
+    //**** Pay Button: Print a Receipt.
     private void payButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payButtonActionPerformed
+
+        //Get content from List
+        ListModel lModel = listDisplay.getModel();
+
+        //Payment Type
+        pType= payType.getSelectedItem().toString();
+        
+        paid= tprice;
+        //Get Calculate change
+        if(pType.compareTo("Cash")==0){ 
+           paid= Double.parseDouble(amountTextField.getText());
+           change= paid - tprice;
+        }else
+            change=0.0;
+        
+        //A File to write
+        File receipt = new File("receipt.txt");
+        try {
+            receipt.createNewFile();
+        } catch (IOException ex) {
+            Logger.getLogger(postGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            //Create A Receipt
+            exportList(lModel, receipt);
+        } catch (IOException ex) {
+            Logger.getLogger(postGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         //Update Date and Time
         dateAndTime();
