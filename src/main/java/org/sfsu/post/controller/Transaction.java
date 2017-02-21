@@ -92,7 +92,8 @@ public class Transaction {
         for(int index = 0; index<numTransItems; index++){
             result += transItems[index].getUPC() + "     " + transItems[index].getQuantity() + "\n";
         }
-        DecimalFormat df = new DecimalFormat("#.##");
-        return (result += payment.getType() + " " + df.format(payment.getPrice()));
+        DecimalFormat df = new DecimalFormat("#.00");
+        //System.out.println(df.format(322.239321));
+        return getPayment().getType().equalsIgnoreCase("CREDIT") ?  (result + payment.getType() + " " + df.format(payment.getId())) : (result + payment.getType() + " " + df.format(payment.getAmount()));
     }
 }

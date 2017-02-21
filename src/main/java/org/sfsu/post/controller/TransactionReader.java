@@ -66,9 +66,20 @@ public class TransactionReader {
                     continue;
                 }*/
             }
-
+            //RETURN HERE AFTER MAKING CASH, CREDIT AND CHECK CLASSES.
             if(line.matches("(((CASH|CREDIT|CHECK)){1}\\s+\\${0,1}[0-9]+\\.{0,1}[0-9]+((\\s+$)|$))"/*|(/CASH/i)\\s+\\${1}[0-9]+\\.{1}[0-9]+")*/)) {
                 //System.out.println("Line: " + line);
+                if(line.contains("CASH")) {
+                    String[] lineSplit = line.split("\\$");
+                    transaction.setPayment(new Cash(Float.parseFloat(lineSplit[1])));
+                } else if(line.contains("CHECK")) {
+                    String[] lineSplit = line.split("\\$");
+                    transaction.setPayment(new Check(Float.parseFloat(lineSplit[1])));
+                } else if(line.contains("CREDIT")) {
+                    String[] lineSplit = line.split("\\s+");
+                    transaction.setPayment(new Credit(Integer.parseInt(lineSplit[1])));
+                }
+                /*
                 if (line.contains("CASH") || line.contains("CHECK")) {
                     // splits the entire line by the $ sign, then trim the first string to erase the trailing whitespaces.
                     String[] lineSplit = line.split("\\$");
@@ -78,12 +89,30 @@ public class TransactionReader {
                     //System.out.println("Line: " + line);
                     String[] lineSplit = line.split("\\s+");
                     transaction.setPayment((new Payment(lineSplit[0].trim(), Float.parseFloat(lineSplit[1]))));
-                }
+                }*/
             }
         }catch(Exception e){
             System.out.println("Error occurred during transaction processing");
             e.printStackTrace();
         }
         return transaction;
+    }
+}
+
+class TransactionReaderTest{
+    public static void main(String[] args){
+        try {
+            testGetNextTransaction();
+        }catch(Exception e){
+            System.out.println("TEST FAILED");
+            e.printStackTrace();
+        }
+    }
+
+    private static void testGetNextTransaction(){
+        TransactionReader tr = new TransactionReader("/Users/ivanyu/IdeaProjects/post1_subgroup1/src/main/java/org/sfsu/post/controller/transactionExample.txt");
+        while(tr.hasMoreTransaction()){
+            System.out.println(tr.getNextTransaction() + "\n");
+        }
     }
 }

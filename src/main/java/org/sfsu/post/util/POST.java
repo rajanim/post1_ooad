@@ -108,8 +108,8 @@ public class POST {
             // Differentiate between different types of payments
             Payment paymentType = tempTransaction.getPayment();
             if (paymentType.getType().toUpperCase().equals("CASH")) {
-                transactionLog += String.format("\nAmount Tendered: %25s",formatter.format(tempTransaction.getPayment().getPrice()));
-                transactionLog += String.format("\nAmount Returned: %28s", formatter.format((tempTransaction.getPayment().getPrice() - realTotal)) +"\n\n\n");
+                transactionLog += String.format("\nAmount Tendered: %25s",formatter.format(tempTransaction.getPayment().getAmount()));
+                transactionLog += String.format("\nAmount Returned: %28s", formatter.format((tempTransaction.getPayment().getAmount() - realTotal)) +"\n\n\n");
 
             } else if (paymentType.getType().equals("CHECK")) {
                 transactionLog += String.format("\n%45s", "Paid by Check\n\n\n");
@@ -136,12 +136,13 @@ public class POST {
 
         DecimalFormat df = new DecimalFormat("#");
 
-        return String.format("\n%16s %25s", "Credit Card#:", df.format((transaction.getPayment().getPrice())));
+        return String.format("\n%16s %25s", "Credit Card#:", df.format((transaction.getPayment().getAmount())));
     }
 
     //Copies the contents of invoiceLog into invoice.txt
     public void invoiceMaker()throws  IOException{
-        File invoice = new File("src/invoice.txt");
+        //File invoice = new File("src/invoice.txt");
+        File invoice = new File("/Users/ivanyu/Documents/fe.txt");
         try {
             FileOutputStream stream = new FileOutputStream(invoice);
         } catch (FileNotFoundException e) {
@@ -157,6 +158,11 @@ public class POST {
         bw.write(invoiceLog);
         // close connection
         bw.close();
+    }
+
+    public static void main(String[] args) throws IOException{
+        POST p = new POST(new Store(), new TransactionReader("/Users/ivanyu/IdeaProjects/post1_subgroup1/src/main/java/org/sfsu/post/controller/transactionExample.txt"));
+        p.invoiceMaker();
     }
 
 }
