@@ -9,10 +9,8 @@
                 Methods used for GUI can be easily search by using CTRL+F and
                 type //**** . 
 
- *    Updates:  1. Time Format Change.
-                2. jCombobox is hard coded in populateBox() method.
-                3. UPCs and product names are connected in the section
-                   ("Adding to Item Display List") of enterButtonActionPerformed(). 
+ *    Updates:  JList UI is updated.
+                
  * 
  */
 package post2gui;
@@ -50,6 +48,7 @@ public class postGUI extends javax.swing.JFrame {
     //Variables used in payButtonActionPerformed
     public static double paid,change;
     public static String pType;
+    public boolean wipeOut= false;
     
     public postGUI() {
         initComponents();
@@ -382,6 +381,12 @@ public class postGUI extends javax.swing.JFrame {
     //**** Enter Button: Input items selected by a user to Jlist.
     private void enterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterButtonActionPerformed
 
+        //Clean the List
+        if(wipeOut){
+           list.removeAllElements();
+           wipeOut= false;
+        }
+        
         //*** Calculate the price of an Item respect to its quantity ***//
         name = customerName.getText();
         double amount = Double.valueOf((String) quantity.getSelectedItem());
@@ -467,8 +472,26 @@ public class postGUI extends javax.swing.JFrame {
             Logger.getLogger(postGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        //Print summary on screen
+        list.addElement(String.format("%68s", "-----------------"));
+        list.addElement(String.format("%62s%6s", "Check out: ",
+                pType));
+        list.addElement(String.format("%62s%6s", "     Paid: ",
+                paid));
+        if(pType.compareTo("Cash")==0){
+               list.addElement(String.format("%62s%6s", "   Change: ",change));
+            }
+        list.addElement(String.format("%62s%6s", "  Receipt: ",
+                "PRINTED"));
+        
         //Update Date and Time
         dateAndTime();
+        
+        //Reset Data
+        wipeOut= true;
+        tprice= 0.0;
+        paid= 0.0;
+        change=0.0;
     }//GEN-LAST:event_payButtonActionPerformed
 
     /**
