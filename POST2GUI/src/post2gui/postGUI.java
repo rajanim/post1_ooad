@@ -9,8 +9,10 @@
                 Methods used for GUI can be easily search by using CTRL+F and
                 type //**** . 
 
- *    Updates:  A functionality to generate a receipt.txt is added to pay button.
-                Comments are modified for clear understanding of the code.
+ *    Updates:  1. Time Format Change.
+                2. jCombobox is hard coded in populateBox() method.
+                3. UPCs and product names are connected in the section
+                   ("Adding to Item Display List") of enterButtonActionPerformed(). 
  * 
  */
 package post2gui;
@@ -25,7 +27,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -50,16 +54,47 @@ public class postGUI extends javax.swing.JFrame {
     public postGUI() {
         initComponents();
         dateAndTime();
+        populateBox();
     }
 
     //**** Show Date and Time
     public void dateAndTime() {
 
-        final DateFormat df = new SimpleDateFormat("MM dd HH:mm:ss yyyy");
-
-        Date d = new Date();
-        date.setText(df.format(d));
-        time= date.getText();
+        String monthName,dayName,timeDigit;
+        int dayDigit,yearDigit;
+        final DateFormat df;
+        Date d;
+        SimpleDateFormat month;
+        
+        Calendar cal=Calendar.getInstance();
+        Date date= cal.getTime();
+        
+        // Month, Day and Year
+        month = new SimpleDateFormat("MMM");
+        monthName = month.format(cal.getTime());
+        dayName = new SimpleDateFormat("EEE", Locale.ENGLISH).format(date);
+        dayDigit = cal.get(Calendar.DAY_OF_MONTH);
+        yearDigit = cal.get(Calendar.YEAR);
+        
+        //Time
+        df = new SimpleDateFormat("HH:mm:ss");
+        d = new Date();
+        timeDigit= df.format(d);
+        
+        //Set the label
+        dateLabel.setText(dayName+" "+monthName+" "+dayDigit+" "+timeDigit+" GEST "+yearDigit);
+        time= dateLabel.getText();
+    }
+    
+    //**** Populate Combobox
+    public void populateBox(){
+        
+        // upc data array
+        String upc[]={"001","002","003","004","005"};
+        
+        for(int i=0;i<upc.length;i++)
+            UPC.addItem(upc[i]);
+        
     }
 
     //**** Print Receipt
@@ -120,13 +155,13 @@ public class postGUI extends javax.swing.JFrame {
         listDisplay = new javax.swing.JList<>();
         jLabel10 = new javax.swing.JLabel();
         totalPrice = new javax.swing.JLabel();
-        date = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         amountTextField = new javax.swing.JTextField();
         payType = new javax.swing.JComboBox<>();
         payButton = new javax.swing.JButton();
+        dateLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -144,8 +179,6 @@ public class postGUI extends javax.swing.JFrame {
                 enterButtonActionPerformed(evt);
             }
         });
-
-        UPC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Coffee", "Sandwich", "Hot dog", "Pizza" }));
 
         quantity.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
@@ -206,9 +239,6 @@ public class postGUI extends javax.swing.JFrame {
 
         totalPrice.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
 
-        date.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        date.setText("DATE AND TIME");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -228,9 +258,7 @@ public class postGUI extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(299, 299, 299)
+                                .addGap(663, 663, 663)
                                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(totalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -251,8 +279,7 @@ public class postGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(totalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(totalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(242, 242, 242))
         );
 
@@ -303,6 +330,9 @@ public class postGUI extends javax.swing.JFrame {
                 .addGap(24, 24, 24))
         );
 
+        dateLabel.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        dateLabel.setText("DATE AND TIME");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -319,7 +349,10 @@ public class postGUI extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(dateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(89, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -337,7 +370,9 @@ public class postGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -357,10 +392,37 @@ public class postGUI extends javax.swing.JFrame {
         //*** End of Calculation ***//
 
         //*** Adding to Item Display List ***//
+        //product data array
+        String data[]= {"Pizza", "Hotdog", "Burger", "Coke", "Coffee", "Lemonade"};
         Font fmonos = new Font("monospaced", Font.PLAIN, 20);
         listDisplay.setFont(fmonos);
 
-        list.addElement(String.format("%-36s%2s%13.2f%17.2f", UPC.getSelectedItem(),
+        //get Products
+        String product,productCode= UPC.getSelectedItem().toString();
+        //Convert Code to Products
+        switch (productCode){
+        
+            case "001":
+                product= data[0];
+                break;
+            case "002":
+                product= data[1];
+                break;
+            case "003":
+                product= data[2];
+                break;
+            case "004":
+                product= data[3];
+                break;
+            case "005":
+                product= data[4];
+                break;
+            default:
+                product= "Invalid";
+                break;
+        }
+        
+        list.addElement(String.format("%-36s%2s%13.2f%17.2f", product,
                 quantity.getSelectedItem(), eaprice, price));
 
         listDisplay.setModel(list);
@@ -448,7 +510,7 @@ public class postGUI extends javax.swing.JFrame {
     private javax.swing.JTextField amountTextField;
     private javax.swing.JLabel customerLabel;
     private javax.swing.JTextField customerName;
-    private javax.swing.JLabel date;
+    private javax.swing.JLabel dateLabel;
     private javax.swing.JButton enterButton;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

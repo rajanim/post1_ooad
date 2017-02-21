@@ -1,0 +1,16 @@
+Customer Name: Myat
+Date and Time: Mon Feb 20 18:08:20 GEST 2017
+---------------------------------------------------------------------
+ITEM                          QUANTITY   UNIT_PRICE   EXTENDED_PRICE
+Pizza                                1         2.00             2.00
+Hotdog                               1         2.00             2.00
+Burger                               1         2.00             2.00
+Coke                                 1         2.00             2.00
+Coffee                               1         2.00             2.00
+Coffee                               4         2.00             8.00
+Hotdog                               2         2.00             4.00
+---------------------------------------------------------------------
+                                                    Check Out: Cash
+                                                        Total: $22.0
+                                                        Paid : $25.0
+                                                       Change: $3.0
