@@ -1,9 +1,13 @@
-Customer Name: bbb
-Date and Time: Tue Feb 21 10:31:40 GEST 2017
+Customer Name: 
+Date and Time: Tue Feb 21 14:44:57 GEST 2017
 ---------------------------------------------------------------------
 ITEM                          QUANTITY   UNIT_PRICE   EXTENDED_PRICE
 Pizza                                1         2.00             2.00
+                                                   -----------------
+                                                   Check out:  Check
+                                                        Paid:    2.0
+                                                     Receipt: PRINTED
 ---------------------------------------------------------------------
                                                     Check Out: Check
-                                                        Total: $2.0
-                                                        Paid : $2.0
+                                                        Total: $0.0
+                                                        Paid : $0.0
