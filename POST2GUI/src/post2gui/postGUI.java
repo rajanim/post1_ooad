@@ -16,6 +16,8 @@
 package post2gui;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -31,6 +33,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
 import javax.swing.ListModel;
 
 /**
@@ -46,60 +49,83 @@ public class postGUI extends javax.swing.JFrame {
     public static String name;
     DefaultListModel list = new DefaultListModel();
     //Variables used in payButtonActionPerformed
-    public static double paid,change,cardNum;
+    public static double paid, change, cardNum;
     public static String pType;
-    public boolean wipeOut= false;
-    
+    public boolean wipeOut = false;
+
     public postGUI() {
         initComponents();
         dateAndTime();
         populateBox();
+
+        //**** Action Listner for Jcombobox
+        payType.addActionListener(
+                new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String payment;
+                JComboBox combo = (JComboBox) e.getSource();
+
+                payment = combo.getSelectedItem().toString();
+                if (payment.compareTo("Credit") == 0) {
+                    amountTextField.setText(null);
+                    amountLabel.setText("Card No");
+                }else if (payment.compareTo("Check") == 0) {
+                    amountTextField.setText(Double.toString(tprice));
+                    amountLabel.setText("Amount");
+                }else{
+                    amountTextField.setText(null);
+                    amountLabel.setText("Amount");
+                }
+            }
+        }
+        );
     }
 
     //**** Show Date and Time
     public void dateAndTime() {
 
-        String monthName,dayName,timeDigit;
-        int dayDigit,yearDigit;
+        String monthName, dayName, timeDigit;
+        int dayDigit, yearDigit;
         final DateFormat df;
         Date d;
         SimpleDateFormat month;
-        
-        Calendar cal=Calendar.getInstance();
-        Date date= cal.getTime();
-        
+
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+
         // Month, Day and Year
         month = new SimpleDateFormat("MMM");
         monthName = month.format(cal.getTime());
         dayName = new SimpleDateFormat("EEE", Locale.ENGLISH).format(date);
         dayDigit = cal.get(Calendar.DAY_OF_MONTH);
         yearDigit = cal.get(Calendar.YEAR);
-        
+
         //Time
         df = new SimpleDateFormat("HH:mm:ss");
         d = new Date();
-        timeDigit= df.format(d);
-        
+        timeDigit = df.format(d);
+
         //Set the label
-        dateLabel.setText(dayName+" "+monthName+" "+dayDigit+" "+timeDigit+" GEST "+yearDigit);
-        time= dateLabel.getText();
+        dateLabel.setText(dayName + " " + monthName + " " + dayDigit + " " + timeDigit + " GEST " + yearDigit);
+        time = dateLabel.getText();
     }
-    
+
     //**** Populate Combobox
-    public void populateBox(){
-        
+    public void populateBox() {
+
         // upc data array
-        String upc[]={"001","002","003","004","005"};
-        
-        for(int i=0;i<upc.length;i++)
+        String upc[] = {"001", "002", "003", "004", "005"};
+
+        for (int i = 0; i < upc.length; i++) {
             UPC.addItem(upc[i]);
-        
+        }
+
     }
-    
+
     //**** Print Receipt
     public static void exportList(ListModel model, File f) throws IOException {
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(f), "UTF-8"));
-        
+
         try {
             int len = model.getSize();
             pw.print("Customer Name: ");
@@ -112,17 +138,17 @@ public class postGUI extends javax.swing.JFrame {
                 pw.println(model.getElementAt(i).toString());
             }
             pw.println("---------------------------------------------------------------------");
-            pw.print("                                                    Check Out: ");
+            pw.print("                                                     CheckOut: ");
             pw.println(pType);
             pw.print("                                                        Total: $");
             pw.println(tprice);
             pw.print("                                                        Paid : $");
             pw.println(paid);
-            if(pType.compareTo("Cash")==0){
-               pw.print("                                                       Change: $");
-               pw.println(change);  
+            if (pType.compareTo("Cash") == 0) {
+                pw.print("                                                       Change: $");
+                pw.println(change);
             }
-          
+
         } finally {
             pw.close();
         }
@@ -156,7 +182,7 @@ public class postGUI extends javax.swing.JFrame {
         totalPrice = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        AmountLabel = new javax.swing.JLabel();
+        amountLabel = new javax.swing.JLabel();
         amountTextField = new javax.swing.JTextField();
         payType = new javax.swing.JComboBox<>();
         payButton = new javax.swing.JButton();
@@ -241,8 +267,8 @@ public class postGUI extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel4.setText("Payment Type");
 
-        AmountLabel.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        AmountLabel.setText("Amount");
+        amountLabel.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        amountLabel.setText("Amount");
 
         payType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cash", "Check", "Credit" }));
 
@@ -262,12 +288,12 @@ public class postGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(payType, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57)
-                .addComponent(AmountLabel)
+                .addComponent(amountLabel)
                 .addGap(18, 18, 18)
-                .addComponent(amountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addComponent(amountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(184, Short.MAX_VALUE)
                 .addComponent(payButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(255, 255, 255))
         );
@@ -277,7 +303,7 @@ public class postGUI extends javax.swing.JFrame {
                 .addGap(41, 41, 41)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(AmountLabel)
+                    .addComponent(amountLabel)
                     .addComponent(amountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(payType, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
@@ -339,9 +365,7 @@ public class postGUI extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(68, 68, 68)
                         .addComponent(dateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(218, 218, 218))
         );
 
@@ -381,16 +405,16 @@ public class postGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     //**** Enter Button: Input items selected by a user to Jlist.
     private void enterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterButtonActionPerformed
 
         //Clean the List
-        if(wipeOut){
-           list.removeAllElements();
-           wipeOut= false;
+        if (wipeOut) {
+            list.removeAllElements();
+            wipeOut = false;
         }
-        
+
         //*** Calculate the price of an Item respect to its quantity ***//
         name = customerName.getText();
         double amount = Double.valueOf((String) quantity.getSelectedItem());
@@ -402,35 +426,35 @@ public class postGUI extends javax.swing.JFrame {
 
         //*** Adding to Item Display List ***//
         //product data array
-        String data[]= {"Pizza", "Hotdog", "Burger", "Coke", "Coffee", "Lemonade"};
+        String data[] = {"Pizza", "Hotdog", "Burger", "Coke", "Coffee", "Lemonade"};
         Font fmonos = new Font("monospaced", Font.PLAIN, 20);
         listDisplay.setFont(fmonos);
 
         //get Products
-        String product,productCode= UPC.getSelectedItem().toString();
+        String product, productCode = UPC.getSelectedItem().toString();
         //Convert Code to Products
-        switch (productCode){
-        
+        switch (productCode) {
+
             case "001":
-                product= data[0];
+                product = data[0];
                 break;
             case "002":
-                product= data[1];
+                product = data[1];
                 break;
             case "003":
-                product= data[2];
+                product = data[2];
                 break;
             case "004":
-                product= data[3];
+                product = data[3];
                 break;
             case "005":
-                product= data[4];
+                product = data[4];
                 break;
             default:
-                product= "Invalid";
+                product = "Invalid";
                 break;
         }
-        
+
         list.addElement(String.format("%-36s%2s%13.2f%17.2f", product,
                 quantity.getSelectedItem(), eaprice, price));
 
@@ -451,16 +475,17 @@ public class postGUI extends javax.swing.JFrame {
         ListModel lModel = listDisplay.getModel();
 
         //Payment Type
-        pType= payType.getSelectedItem().toString();
-        
-        paid= tprice;
+        pType = payType.getSelectedItem().toString();
+
+        paid = tprice;
         //Get Calculate change
-        if(pType.compareTo("Cash")==0){ 
-           paid= Double.parseDouble(amountTextField.getText());
-           change= paid - tprice;
-        }else
-            change=0.0;
-        
+        if (pType.compareTo("Cash") == 0) {
+            paid = Double.parseDouble(amountTextField.getText());
+            change = paid - tprice;
+        } else {
+            change = 0.0;
+        }
+
         //A File to write
         File receipt = new File("receipt.txt");
         try {
@@ -478,24 +503,24 @@ public class postGUI extends javax.swing.JFrame {
 
         //Print summary on screen
         list.addElement(String.format("%68s", "-----------------"));
-        list.addElement(String.format("%62s%6s", "Check out: ",
+        list.addElement(String.format("%62s%6s", " Checkout: ",
                 pType));
         list.addElement(String.format("%62s%6s", "     Paid: ",
                 paid));
-        if(pType.compareTo("Cash")==0){
-               list.addElement(String.format("%62s%6s", "   Change: ",change));
+        if (pType.compareTo("Cash") == 0) {
+            list.addElement(String.format("%62s%6s", "   Change: ", change));
         }
         list.addElement(String.format("%62s%6s", "  Receipt: ",
                 "PRINTED"));
-        
+
         //Update Date and Time
         dateAndTime();
-        
+
         //Reset Data
-        wipeOut= true;
-        tprice= 0.0;
-        paid= 0.0;
-        change=0.0;
+        wipeOut = true;
+        tprice = 0.0;
+        paid = 0.0;
+        change = 0.0;
     }//GEN-LAST:event_payButtonActionPerformed
 
     /**
@@ -533,8 +558,8 @@ public class postGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel AmountLabel;
     private javax.swing.JComboBox<String> UPC;
+    private javax.swing.JLabel amountLabel;
     private javax.swing.JTextField amountTextField;
     private javax.swing.JLabel customerLabel;
     private javax.swing.JTextField customerName;

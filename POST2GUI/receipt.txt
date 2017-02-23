@@ -1,14 +1,12 @@
-Customer Name: me
-Date and Time: Tue Feb 21 19:48:11 GEST 2017
+Customer Name: John Oak
+Date and Time: Wed Feb 22 18:12:33 GEST 2017
 ---------------------------------------------------------------------
 ITEM                          QUANTITY   UNIT_PRICE   EXTENDED_PRICE
-Pizza                                1         2.00             2.00
+Hotdog                               1         2.00             2.00
 Burger                               1         2.00             2.00
-                                                   -----------------
-                                                   Check out:  Check
-                                                        Paid:    4.0
-                                                     Receipt: PRINTED
+Coke                                 1         2.00             2.00
+Coffee                               2         2.00             4.00
 ---------------------------------------------------------------------
-                                                    Check Out: Credit
-                                                        Total: $0.0
-                                                        Paid : $0.0
+                                                     CheckOut: Credit
+                                                        Total: $10.0
+                                                        Paid : $10.0
